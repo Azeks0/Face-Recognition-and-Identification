@@ -1,4 +1,38 @@
-C:\Users\user\PycharmProjects\FacialReco\unknownfaces
+import face_recognition
+from PIL import Image, ImageDraw
+#Code was inspired by CodingEntrepreneurs and Traversy Media
+#This is meant for personal research with face recognition
+
+image_of_andrei = face_recognition.load_image_file('./knownfaces/WIN_20220308_22_46_40_Pro.jpg')
+subject_face_encoding = face_recognition.face_encodings(image_of_andrei)[0]
+
+image_of_barak = face_recognition.load_image_file('./knownfaces/overview-Barack-Obama.jpg')
+steve_face_encoding = face_recognition.face_encodings(image_of_barak)[0]
+
+image_of_gates = face_recognition.load_image_file('./knownfaces/illgates.jpg')
+elon_face_encoding = face_recognition.face_encodings(image_of_gates)[0]
+
+#  Create arrays of encodings and names
+known_face_encodings = [
+    subject_face_encoding,
+    steve_face_encoding,
+    elon_face_encoding
+]
+
+known_face_names = [
+    "Andrei Voinea",
+    "Barak Obama",
+    "Bill Gates"
+]
+
+# Load test image to find faces in
+test_image = face_recognition.load_image_file('./unknownfaces/Bronx_Obama_2014.jpg')
+
+# Find faces in test image
+face_locations = face_recognition.face_locations(test_image)
+face_encodings = face_recognition.face_encodings(test_image, face_locations)
+
+# Convert to PIL format
 pil_image = Image.fromarray(test_image)
 
 # Create a ImageDraw instance
@@ -29,4 +63,4 @@ del draw
 pil_image.show()
 
 # Save image
-pil_image.save('image.png')
+pil_image.save('identify.jpg')
